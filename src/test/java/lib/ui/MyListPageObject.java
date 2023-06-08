@@ -8,7 +8,10 @@ abstract public class MyListPageObject extends MainPageObject{
             FOLDER_BY_NAME_TPL,
             ARTICLE_BY_TITLE_TPL,
             ARTICLE_SELECTION,
-            CLOSE_BUTTON;
+            CLOSE_BUTTON,
+            BUTTON_EDIT,
+            CHOICE_ARTICLE,
+            DELETE_ARTICLE;
 
     private static String getFolderXpathByName(String name_of_folder){
         return FOLDER_BY_NAME_TPL.replace("{FOLDER_NAME}", name_of_folder);
@@ -71,5 +74,13 @@ abstract public class MyListPageObject extends MainPageObject{
                 "Cannot click button 'Close'",
                 5
         );
+    }
+
+    public void deleteArticleThroughButtons (String article_title) {
+        this.waitForElementAndClick(BUTTON_EDIT, "Cannot find button 'edit'", 5);
+        this.waitForElementAndClick(CHOICE_ARTICLE, "Cannot find button 'Choice'", 5);
+        this.waitForElementAndClick(DELETE_ARTICLE, "Cannot find button 'Unsave'", 5);
+        this.waitForArticleToDisappearByTitle(article_title);
+
     }
 }

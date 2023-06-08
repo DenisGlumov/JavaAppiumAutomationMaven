@@ -52,6 +52,9 @@ public class MyListsTests extends CoreTestCase {
 
         Thread.sleep(2000);
 
-        myListPageObject.swipeByArticleToDelete(article_title);
+        //myListPageObject.swipeByArticleToDelete(article_title);
+        if (Platform.getInstance().isIOS()) {
+            myListPageObject.deleteArticleThroughButtons(article_title);
+        }
     }
 }
