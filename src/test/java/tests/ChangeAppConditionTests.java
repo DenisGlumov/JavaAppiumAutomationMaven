@@ -18,6 +18,7 @@ public class ChangeAppConditionTests extends CoreTestCase {
         searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
 
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
+        articlePageObject.waitForTitleElement();
         String title_before_rotation = articlePageObject.getArticleTitle();
 
         this.rotateScreenLandscape();

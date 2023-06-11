@@ -48,17 +48,19 @@ public class HomeWork3_1 extends CoreTestCase {
             articlePageObject.addArticlesToMySaved();
         }
 
-        articlePageObject.closeArticle();
 
         if (Platform.getInstance().isAndroid()) {
             articlePageObject.waitForTitleElement();
-            String article_title_second = articlePageObject.getArticleTitle();
+           // String article_title_second = articlePageObject.getArticleTitle();
             articlePageObject.addSecondArticleToMyList();
             articlePageObject.closeArticle();
         }
 
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
-        searchPageObject.clickCancelSearch();
+        if (Platform.getInstance().isIOS()) {
+            articlePageObject.closeArticle();
+            searchPageObject.clickCancelSearch();
+        }
         navigationUI.clickMyList();
 
         MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);

@@ -37,7 +37,10 @@ public class MyListsTests extends CoreTestCase {
         articlePageObject.closeArticle();
 
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
-        searchPageObject.clickCancelSearch();
+        if (Platform.getInstance().isIOS()) {
+            searchPageObject.clickCancelSearch();
+        }
+
         navigationUI.clickMyList();
 
         MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
@@ -52,7 +55,10 @@ public class MyListsTests extends CoreTestCase {
 
         Thread.sleep(2000);
 
-        //myListPageObject.swipeByArticleToDelete(article_title);
+        if (Platform.getInstance().isAndroid()) {
+            myListPageObject.swipeByArticleToDelete(article_title);
+        }
+
         if (Platform.getInstance().isIOS()) {
             myListPageObject.deleteArticleThroughButtons(article_title);
         }
