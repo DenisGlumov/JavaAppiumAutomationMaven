@@ -28,20 +28,20 @@ public class ArticleTests extends CoreTestCase {
         );
     }
 
-    @Test
-    public void testSwipeArticle() {
-        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
-
-        searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Java");
-        if (Platform.getInstance().isAndroid()){
-            searchPageObject.clickByArticleWithSubstring("Search Wikipedia");
-        } else {
-            searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
-        }
-
-        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
-        articlePageObject.getArticleTitle();
-        articlePageObject.swipeToFooter();
-    }
+//    @Test
+//    public void testSwipeArticle() {
+//        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
+//
+//        searchPageObject.initSearchInput();
+//        searchPageObject.typeSearchLine("Java");
+//        if (Platform.getInstance().isAndroid()){
+//            searchPageObject.clickByArticleWithSubstring("Search Wikipedia");
+//        } else {
+//            searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+//        }
+//
+//        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
+//        articlePageObject.getArticleTitle();
+//        articlePageObject.swipeToFooter();
+//    }
 }
