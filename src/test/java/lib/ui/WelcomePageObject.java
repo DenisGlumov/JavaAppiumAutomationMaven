@@ -5,12 +5,12 @@ import io.appium.java_client.AppiumDriver;
 public class WelcomePageObject extends MainPageObject {
 
     private static final String
-            STEP_LEARN_MORE_LINK = "id:Узнать подробнее о Википедии",
-            STEP_NEW_WAYS_TO_EXPLORE_TEXT = "id:Новые способы изучения",
-            STEP_ADD_OR_EDIT_PREFERRED_LANG_LINK = "id:Искать на почти 300 языках",
-            STEP_LEARN_MORE_ABOUT_DATA_COLLECTED_LINK = "id:Узнать подробнее о сборе данных",
-            NEXT_LINK = "id:Далее",
-            GET_STARTED_BUTTON = "id:Начать",
+            STEP_LEARN_MORE_LINK = "id:Learn more about Wikipedia",
+            STEP_NEW_WAYS_TO_EXPLORE_TEXT = "id:New ways to explore",
+            STEP_ADD_OR_EDIT_PREFERRED_LANG_LINK = "id:Search in over 300 languages",
+            STEP_LEARN_MORE_ABOUT_DATA_COLLECTED_LINK = "id:Learn more about data collected",
+            NEXT_LINK = "id:Next",
+            GET_STARTED_BUTTON = "id:Get started",
             SKIP = "id:Skip";
     public WelcomePageObject(AppiumDriver driver) {
         super(driver);

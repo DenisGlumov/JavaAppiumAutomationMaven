@@ -63,11 +63,17 @@ public class MainPageObject {
         WebElement element = waitForElementPresent(locator,
                 "Cannot find search 'Search Wikipedia' input",
                 10);
-        String elementText = element.getAttribute("text");
-        Assert.assertEquals(error_message,
-                text,
-                elementText
-        );
+        if (Platform.getInstance().isAndroid()) {
+            String elementText = element.getAttribute("text");
+            Assert.assertEquals(error_message,
+                    text,
+                    elementText);
+        } else {
+            String elementText = element.getAttribute("name");
+            Assert.assertEquals(error_message,
+                    text,
+                    elementText);
+        }
         return element;
     }
 

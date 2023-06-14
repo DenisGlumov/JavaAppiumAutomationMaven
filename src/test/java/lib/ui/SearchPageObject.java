@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 
@@ -95,11 +96,17 @@ abstract public class SearchPageObject extends MainPageObject{
          System.out.println(elementCount);
          List<WebElement> elementSearch = this.getElementSearch(SEARCH_RESULT_LIST);
 //         List<WebElement> elementSearch = driver.findElements(SEARCH_RESULT_LIST);
-         System.out.println(elementSearch.toString());
 
          for (int i = 0; i < elementCount; i++) {
-             System.out.println(elementSearch.get(i).getAttribute("text"));
-             Assert.assertTrue(elementSearch.get(i).getAttribute("text").contains(name_text_check));
+             if (Platform.getInstance().isAndroid()) {
+                 System.out.println(elementSearch.get(i).getAttribute("text"));
+                 Assert.assertTrue(elementSearch.get(i).getAttribute("text").contains(name_text_check));
+             } else {
+                 System.out.println(elementSearch.get(i).getAttribute("name"));
+                 Assert.assertTrue(elementSearch.get(i).getAttribute("name").contains(name_text_check));
+             }
+
+
          }
      }
 }

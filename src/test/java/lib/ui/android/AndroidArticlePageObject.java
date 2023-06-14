@@ -13,6 +13,7 @@ public class AndroidArticlePageObject extends ArticlePageObject {
         ADD_TO_MY_LIST_OVERLAY = "id:org.wikipedia:id/onboarding_button";
         MY_LIST_NAME_INPUT = "id:org.wikipedia:id/text_input";
         MY_LIST_OK_BUTTON = "xpath://*[@text='OK']";
+                                   //*[@text='ВОЙТИ']
         MENU_APPEARED_CHANGE_LANGUAGE = "xpath://*[@text='Change language']";
         MENU_APPEARED_SHARE_LINK = "xpath://*[@text='Share link']";
         MENU_APPEARED_ADD_TO_READING_LIST = "xpath://*[@text='Add to reading list']";
