@@ -1,6 +1,7 @@
 package lib.ui;
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
+import org.openqa.selenium.WebElement;
 
 abstract public class MyListPageObject extends MainPageObject{
 
@@ -11,7 +12,8 @@ abstract public class MyListPageObject extends MainPageObject{
             CLOSE_BUTTON,
             BUTTON_EDIT,
             CHOICE_ARTICLE,
-            DELETE_ARTICLE;
+            DELETE_ARTICLE,
+            MY_SAVE_ARTICLE;
 
     private static String getFolderXpathByName(String name_of_folder){
         return FOLDER_BY_NAME_TPL.replace("{FOLDER_NAME}", name_of_folder);
@@ -81,6 +83,9 @@ abstract public class MyListPageObject extends MainPageObject{
         this.waitForElementAndClick(CHOICE_ARTICLE, "Cannot find button 'Choice'", 5);
         this.waitForElementAndClick(DELETE_ARTICLE, "Cannot find button 'Unsave'", 5);
         this.waitForArticleToDisappearByTitle(article_title);
+    }
 
+    public WebElement findElementOnMyList () {
+       return this.waitForElementPresent(MY_SAVE_ARTICLE, "Cannot find my save Artilce 'Appium'", 5);
     }
 }
