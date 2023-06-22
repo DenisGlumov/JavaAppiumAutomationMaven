@@ -15,7 +15,7 @@ public class MWMyListPageObject extends MyListPageObject {
         BUTTON_EDIT = "id:Edit";
         CHOICE_ARTICLE = "id:Java (programming language)";
         DELETE_ARTICLE = "xpath://XCUIElementTypeButton[@name='Unsave']";
-        MY_SAVE_ARTICLE = "id:Automation for Apps";
+        MY_SAVE_ARTICLE = "xpath://h3[text()='Appium']";
     }
 
     public MWMyListPageObject(RemoteWebDriver driver){
