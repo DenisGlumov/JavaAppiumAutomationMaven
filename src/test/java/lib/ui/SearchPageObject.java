@@ -4,6 +4,7 @@ import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ abstract public class SearchPageObject extends MainPageObject{
             SEARCH_EMPTY_RESULT_ELEMENT,
             CLEAR_SEARCH_LINE;
 
-    public SearchPageObject(AppiumDriver driver){
+    public SearchPageObject(RemoteWebDriver driver){
         super(driver);
     }
     /*TEMPLATE METHODS*/
@@ -56,6 +57,7 @@ abstract public class SearchPageObject extends MainPageObject{
     public void clickByArticleWithSubstring(String substring){
         String search_result_xpath = getResultSearchElement(substring);
         this.waitForElementAndClick(search_result_xpath, "Cannot find and click search result with substring " + substring, 10);
+        System.out.println(search_result_xpath);
     }
 
      public int getAmountOfFoundArticles(){

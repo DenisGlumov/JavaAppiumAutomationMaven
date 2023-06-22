@@ -1,9 +1,11 @@
 package lib.ui;
+
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
-abstract public class MyListPageObject extends MainPageObject{
+abstract public class MyListPageObject extends MainPageObject {
 
     protected static String
             FOLDER_BY_NAME_TPL,
@@ -13,18 +15,26 @@ abstract public class MyListPageObject extends MainPageObject{
             BUTTON_EDIT,
             CHOICE_ARTICLE,
             DELETE_ARTICLE,
-            MY_SAVE_ARTICLE;
+            MY_SAVE_ARTICLE,
+            CHECK_DELETE_ARTICLE,
+            REMOVE_FROM_SAVED_BUTTON;
 
-    private static String getFolderXpathByName(String name_of_folder){
+    private static String getFolderXpathByName(String name_of_folder) {
         return FOLDER_BY_NAME_TPL.replace("{FOLDER_NAME}", name_of_folder);
     }
 
-    private static String getSaveArticleByTitle(String article_title){
+    private static String getRemoveButtonByTitle(String article_title) {
+        return REMOVE_FROM_SAVED_BUTTON.replace("{TITLE}", article_title);
+    }
+
+    private static String getSaveArticleByTitle(String article_title) {
         return ARTICLE_BY_TITLE_TPL.replace("{TITLE}", article_title);
     }
-    public MyListPageObject(AppiumDriver driver){
+
+    public MyListPageObject(RemoteWebDriver driver) {
         super(driver);
     }
+
     public void openFolderByName(String name_of_folder) throws InterruptedException {
         Thread.sleep(500);
         String folder_name_xpath = getFolderXpathByName(name_of_folder);
@@ -36,33 +46,49 @@ abstract public class MyListPageObject extends MainPageObject{
         );
     }
 
-    public void waitForArticleToAppearByTitle(String article_title){
+    public void waitForArticleToAppearByTitle(String article_title) {
         String article_xpath = getSaveArticleByTitle(article_title);
         this.waitForElementPresent(article_xpath, "Cannot find saved article by title", 25);
     }
 
 
-    public void waitForArticleToDisappearByTitle(String article_title){
+    public void waitForArticleToDisappearByTitle(String article_title) {
         String article_xpath = getSaveArticleByTitle(article_title);
         this.waitForElementNotPresent(article_xpath, "Saved article still present with title", 15);
     }
 
-    public void swipeByArticleToDelete(String article_title){
+    public void swipeByArticleToDelete(String article_title) {
         this.waitForArticleToAppearByTitle(article_title);
         String article_xpath = getSaveArticleByTitle(article_title);
-        this.swipeElementToLeft(
-                article_xpath,
-                "Cannot find saved article"
-        );
 
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()) {
+            this.swipeElementToLeft(
+                    article_xpath,
+                    "Cannot find saved article");
+        } else {
+            String remove_locator = getRemoveButtonByTitle(article_title);
+            System.out.println("делаем клик на удаление статьи");
+            System.out.println(remove_locator);
+            this.waitForElementAndClick(
+                    remove_locator,
+                    "Cannot click button to remove article from saved",
+                    10
+            );
+        }
         if (Platform.getInstance().isIOS()) {
             this.clickToTheRightUpperCorner(article_xpath, "Cannot find saved article");
-
         }
+
+        if (Platform.getInstance().isMW()) {
+            this.waitForElementPresent(CHECK_DELETE_ARTICLE,"Cannot find button Remove", 5);
+            driver.navigate().refresh();
+            System.out.println("Обновляем страницу");
+        }
+
         this.waitForArticleToDisappearByTitle(article_title);
     }
 
-    public void articleSelection(){
+    public void articleSelection() {
         this.waitForElementAndClick(
                 ARTICLE_SELECTION,
                 "Cannot find 'Appium'",
@@ -70,7 +96,7 @@ abstract public class MyListPageObject extends MainPageObject{
         );
     }
 
-    public void clickCloseButton(){
+    public void clickCloseButton() {
         this.waitForElementAndClick(
                 CLOSE_BUTTON,
                 "Cannot click button 'Close'",
@@ -78,14 +104,14 @@ abstract public class MyListPageObject extends MainPageObject{
         );
     }
 
-    public void deleteArticleThroughButtons (String article_title) {
+    public void deleteArticleThroughButtons(String article_title) {
         this.waitForElementAndClick(BUTTON_EDIT, "Cannot find button 'edit'", 5);
         this.waitForElementAndClick(CHOICE_ARTICLE, "Cannot find button 'Choice'", 5);
         this.waitForElementAndClick(DELETE_ARTICLE, "Cannot find button 'Unsave'", 5);
         this.waitForArticleToDisappearByTitle(article_title);
     }
 
-    public WebElement findElementOnMyList () {
-       return this.waitForElementPresent(MY_SAVE_ARTICLE, "Cannot find my save Artilce 'Appium'", 5);
+    public WebElement findElementOnMyList() {
+        return this.waitForElementPresent(MY_SAVE_ARTICLE, "Cannot find my save Artilce 'Appium'", 5);
     }
 }
