@@ -42,7 +42,7 @@ public class HomeWork3_1 extends CoreTestCase {
             auth.submitForm();
 
             articlePageObject.waitForTitleElement();
-            assertEquals("We are not on the same page after login",
+            Assert.assertEquals("We are not on the same page after login",
                     article_title,
                     articlePageObject.getArticleTitle());
 
@@ -111,7 +111,7 @@ public class HomeWork3_1 extends CoreTestCase {
             );
         } else {
             WebElement element = myListPageObject.findElementOnMyList();
-            assertTrue(element.isDisplayed());
+            Assert.assertTrue(element.isDisplayed());
         }
     }
 }

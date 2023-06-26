@@ -1,6 +1,7 @@
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.SearchPageObjectFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class HomeWork2_2 extends CoreTestCase {
@@ -14,7 +15,7 @@ public class HomeWork2_2 extends CoreTestCase {
 
         int elementCount = searchPageObject.getAmountOfFoundArticles();
         System.out.println(elementCount);
-        assertTrue(
+        Assert.assertEquals(
                 "We found too few results",
                 elementCount > 0
         );
