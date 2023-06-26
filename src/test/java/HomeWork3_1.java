@@ -1,9 +1,6 @@
 import lib.CoreTestCase;
 import lib.Platform;
-import lib.ui.ArticlePageObject;
-import lib.ui.MyListPageObject;
-import lib.ui.NavigationUI;
-import lib.ui.SearchPageObject;
+import lib.ui.*;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
@@ -13,6 +10,11 @@ import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
 public class HomeWork3_1 extends CoreTestCase {
+
+    private static final String
+            login = "Denis1990Glumov",
+            password = "8*qB2VdK!np+n.G";
+
     @Test
     public void testSaveArticlesToMyList() throws InterruptedException {
 
@@ -20,7 +22,7 @@ public class HomeWork3_1 extends CoreTestCase {
 
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("java");
-        searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        searchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         articlePageObject.waitForTitleElement();
@@ -30,6 +32,20 @@ public class HomeWork3_1 extends CoreTestCase {
         if (Platform.getInstance().isAndroid()) {
             articlePageObject.addArticleToMyList(name_of_folder);
         } else {
+            articlePageObject.addArticlesToMySaved();
+        }
+
+        if (Platform.getInstance().isMW()) {
+            AuthorizationPageObject auth = new AuthorizationPageObject(driver);
+            auth.clickAuthButton();
+            auth.enterLoginData(login, password);
+            auth.submitForm();
+
+            articlePageObject.waitForTitleElement();
+            Assert.assertEquals("We are not on the same page after login",
+                    article_title,
+                    articlePageObject.getArticleTitle());
+
             articlePageObject.addArticlesToMySaved();
         }
 
@@ -43,15 +59,18 @@ public class HomeWork3_1 extends CoreTestCase {
         searchPageObject.typeSearchLine("Appium");
         if (Platform.getInstance().isAndroid()) {
             searchPageObject.clickByArticleWithSubstring("Search Wikipedia");
-        } else {
+        } else if (Platform.getInstance().isIOS()) {
             searchPageObject.clickByArticleWithSubstring("Appium");
+            articlePageObject.addArticlesToMySaved();
+        } else {
+            searchPageObject.clickByArticleWithSubstring("utomation for Apps");
             articlePageObject.addArticlesToMySaved();
         }
 
 
         if (Platform.getInstance().isAndroid()) {
             articlePageObject.waitForTitleElement();
-           // String article_title_second = articlePageObject.getArticleTitle();
+            // String article_title_second = articlePageObject.getArticleTitle();
             articlePageObject.addSecondArticleToMyList();
             articlePageObject.closeArticle();
         }
@@ -61,11 +80,17 @@ public class HomeWork3_1 extends CoreTestCase {
             articlePageObject.closeArticle();
             searchPageObject.clickCancelSearch();
         }
+
+        navigationUI.openNavigation();
         navigationUI.clickMyList();
 
         MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
+
         if (Platform.getInstance().isAndroid()) {
             myListPageObject.openFolderByName(name_of_folder);
+        }
+
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isMW()) {
             myListPageObject.swipeByArticleToDelete(article_title);
         }
 
@@ -73,11 +98,6 @@ public class HomeWork3_1 extends CoreTestCase {
             myListPageObject.clickCloseButton();
             myListPageObject.deleteArticleThroughButtons(article_title);
         }
-//        assertEquals(
-//                "Article title have been change after screen orientation",
-//                "Appium",
-//                article_title_second
-//        );
 
         if (Platform.getInstance().isAndroid()) {
             myListPageObject.articleSelection();
@@ -91,9 +111,7 @@ public class HomeWork3_1 extends CoreTestCase {
             );
         } else {
             WebElement element = myListPageObject.findElementOnMyList();
-            assertTrue(element.isDisplayed());
+            Assert.assertTrue(element.isDisplayed());
         }
-
-
     }
 }

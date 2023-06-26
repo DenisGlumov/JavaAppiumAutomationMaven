@@ -1,49 +1,55 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-abstract public class ArticlePageObject extends MainPageObject{
+abstract public class ArticlePageObject extends MainPageObject {
     protected static String
-        TITLE,
-        FOOTER_ELEMENT,
-        OPTION_BUTTON,
-        OPTION_ADD_TO_MY_LIST_BUTTON,
-        OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
-        ADD_TO_MY_LIST_OVERLAY,
-        MY_LIST_NAME_INPUT,
-        MY_LIST_OK_BUTTON,
-        MENU_APPEARED_CHANGE_LANGUAGE,
-        MENU_APPEARED_SHARE_LINK,
-        MENU_APPEARED_ADD_TO_READING_LIST,
-        MENU_APPEARED_FIND_IN_PAGE,
-        MENU_APPEARED_SIMILAR_PAGES,
-        MENU_APPEARED_FRONT_END_THEM,
-        MY_CREATE_LIST,
-        CLOSE_ARTICLE_BUTTON;
-    public ArticlePageObject(RemoteWebDriver driver){
+            TITLE,
+            FOOTER_ELEMENT,
+            OPTION_BUTTON,
+            OPTION_ADD_TO_MY_LIST_BUTTON,
+            OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
+            ADD_TO_MY_LIST_OVERLAY,
+            MY_LIST_NAME_INPUT,
+            MY_LIST_OK_BUTTON,
+            MENU_APPEARED_CHANGE_LANGUAGE,
+            MENU_APPEARED_SHARE_LINK,
+            MENU_APPEARED_ADD_TO_READING_LIST,
+            MENU_APPEARED_FIND_IN_PAGE,
+            MENU_APPEARED_SIMILAR_PAGES,
+            MENU_APPEARED_FRONT_END_THEM,
+            MY_CREATE_LIST,
+            CLOSE_ARTICLE_BUTTON;
+
+    public ArticlePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
-    public WebElement waitForTitleElement(){
+    @Step("Waiting for title on the article page")
+    public WebElement waitForTitleElement() {
         return this.waitForElementPresent(TITLE, "Cannot find article title on page", 15);
     }
 
-    public String getArticleTitle(){
+    @Step("Get article title")
+    public String getArticleTitle() {
         WebElement title_element = waitForTitleElement();
+        screenshot(this.takeScreenShot("article_title"));
         if (Platform.getInstance().isAndroid()) {
             return title_element.getAttribute("text");
         } else if (Platform.getInstance().isIOS()) {
             return title_element.getAttribute("name");
         } else {
-             return title_element.getText();
+            return title_element.getText();
         }
 
     }
 
-    public void swipeToFooter(){
+    @Step("Swiping to footer on article page")
+    public void swipeToFooter() {
 
         if (Platform.getInstance().isAndroid()) {
             this.swipeUpToFindElement(
@@ -51,11 +57,11 @@ abstract public class ArticlePageObject extends MainPageObject{
                     "Cannot find the end of the article",
                     80
             );
-        } else if (Platform.getInstance().isIOS()){
+        } else if (Platform.getInstance().isIOS()) {
             this.swipeUpTitleElementAppear(
                     FOOTER_ELEMENT,
                     "Cannot find the end of the article",
-                    80 );
+                    80);
         } else {
             this.scrollWebWebPageTillElementNotVisible(
                     FOOTER_ELEMENT,
@@ -65,7 +71,8 @@ abstract public class ArticlePageObject extends MainPageObject{
         }
     }
 
-    public void addArticleToMyList(String name_of_folder){
+    @Step("Adding the article to my list")
+    public void addArticleToMyList(String name_of_folder) {
         this.waitForElementAndClick(
                 OPTION_BUTTON,
                 "Cannot find button to open article option",
@@ -106,6 +113,7 @@ abstract public class ArticlePageObject extends MainPageObject{
         );
     }
 
+    @Step("Removing the article from saved if it has been added")
     public void removeArticleFromSavedIfItAdded() {
         if (this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)) {
             this.waitForElementAndClick(
@@ -122,19 +130,20 @@ abstract public class ArticlePageObject extends MainPageObject{
     }
 
 
-
-    public void closeArticle(){
-        if (Platform.getInstance().isIOS()|| Platform.getInstance().isAndroid()) {
+    @Step("Closing the article")
+    public void closeArticle() {
+        if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
             this.waitForElementAndClick(
                     CLOSE_ARTICLE_BUTTON,
                     "Cannot close article, cannot find X link",
                     5
             );
         } else {
-            System.out.println("Method closeArticle() do nothing for platform "+ Platform.getInstance().getPlatformVar());
+            System.out.println("Method closeArticle() do nothing for platform " + Platform.getInstance().getPlatformVar());
         }
     }
 
+    @Step("Waiting for the whole list to appear")
     public void waitForMenuAppeared() {
         waitForElementPresent(
                 MENU_APPEARED_CHANGE_LANGUAGE,
@@ -168,6 +177,7 @@ abstract public class ArticlePageObject extends MainPageObject{
         );
     }
 
+    @Step("Waiting for the whole list to appear for second adding")
     public void waitForMenuSecondAppeared() {
         waitForElementPresent(
                 MENU_APPEARED_CHANGE_LANGUAGE,
@@ -196,7 +206,8 @@ abstract public class ArticlePageObject extends MainPageObject{
         );
     }
 
-    public void addSecondArticleToMyList(){
+    @Step("Second adding the article to my list")
+    public void addSecondArticleToMyList() {
         this.waitForElementAndClick(
                 OPTION_BUTTON,
                 "Cannot find button to open article option",
@@ -218,14 +229,16 @@ abstract public class ArticlePageObject extends MainPageObject{
         );
     }
 
-    public void addArticlesToMySaved(){
-        if (Platform.getInstance().isMW()){
+    @Step("Adding the article to my saved articles")
+    public void addArticlesToMySaved() {
+        if (Platform.getInstance().isMW()) {
             this.removeArticleFromSavedIfItAdded();
         }
-        this.waitForElementAndClick(OPTION_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list",5);
+        this.waitForElementAndClick(OPTION_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list", 5);
     }
 
-    public void checkArticleWithoutWait(){
+    @Step("Check article when we don't have an expectation")
+    public void checkArticleWithoutWait() {
         this.assertElementPresent(
                 TITLE,
                 "Cannot find Article"
