@@ -1,3 +1,5 @@
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
@@ -6,9 +8,15 @@ import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
+@Epic("Tests for mobile app")
 public class HomeWork3_3 extends CoreTestCase {
 
     @Test
+    @Features(value = {@Feature(value="Mobile phone features")})
+    @DisplayName("Change orientation for mobile phone")
+    @Description("Change orientation on landscape and portrait and make sure the title is expected")
+    @Step("Starting test testChangeScreenOrientationOnSearchResults")
+    @Severity(value = SeverityLevel.BLOCKER)
     public void testChangeScreenOrientationOnSearchResults() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 

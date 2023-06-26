@@ -1,27 +1,31 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-abstract public class NavigationUI extends MainPageObject{
+abstract public class NavigationUI extends MainPageObject {
     protected static String
             //MY_LISTS_LINK = "xpath://android.widget.FrameLayout[@content-desc='My lists']";
             MY_LISTS_LINK,
             OPEN_NAVIGATION;
-    public NavigationUI(RemoteWebDriver driver){
+
+    public NavigationUI(RemoteWebDriver driver) {
         super(driver);
     }
 
+    @Step("Open navigation for platform mobile_web")
     public void openNavigation() {
         if (Platform.getInstance().isMW()) {
             this.waitForElementAndClick(OPEN_NAVIGATION, "Cannot find and click open navigation button", 5);
         } else {
-            System.out.println("Method openNavigation() do nothing for platform "+ Platform.getInstance().getPlatformVar());
+            System.out.println("Method openNavigation() do nothing for platform " + Platform.getInstance().getPlatformVar());
         }
     }
 
-    public void clickMyList(){
+    @Step("Click on my list for platform mobile_web")
+    public void clickMyList() {
         if (Platform.getInstance().isMW()) {
             this.tryClickElementWithFewAttempts(
                     MY_LISTS_LINK,
