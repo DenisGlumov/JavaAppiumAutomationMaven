@@ -1,3 +1,5 @@
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.*;
@@ -9,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
+@Epic("Tests for my list")
 public class HomeWork3_1 extends CoreTestCase {
 
     private static final String
@@ -16,6 +19,11 @@ public class HomeWork3_1 extends CoreTestCase {
             password = "8*qB2VdK!np+n.G";
 
     @Test
+    @Features(value = {@Feature(value="Search"),@Feature(value = "Article"),@Feature(value = "MyList")})
+    @DisplayName("Saving two articles")
+    @Description("saving two articles, deleting one of the saved ones, checking that the second one remains")
+    @Step("Starting test testSaveArticlesToMyList")
+    @Severity(value = SeverityLevel.CRITICAL)
     public void testSaveArticlesToMyList() throws InterruptedException {
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
